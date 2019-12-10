@@ -215,9 +215,19 @@ const arrSum = arr => arr.reduce((a,b) => a + b, 0);
 
 function crossOver() {
   let pool = tourneySelect(generation);
-  
 }
 
 function tourneySelect(oldpool) {
-  
+  let newpool = [];
+  for (let i = 0; i < genSize; i++) {
+    const c1 = Math.floor(Math.random() * oldpool.length);
+    const c2 = Math.floor(Math.random() * oldpool.length);
+
+    if (genFitness[c1] > genFitness[c2]) {
+      newpool.push(oldpool[c1]);
+    } else {
+      newpool.push(oldpool[c2]);
+    }
+  }
+  return newpool;
 }

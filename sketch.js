@@ -214,11 +214,10 @@ function getBestGenScore() {
 const arrSum = arr => arr.reduce((a,b) => a + b, 0);
 
 function crossOver() {
-  const total = arrSum(genFitness);
-  let pool = [];
-  for (const currfit of genFitness) {
-    pool.push(arrSum(pool) + currfit/total);
-  }
-  // console.log(pool);
-  console.log(arrSum(pool));
+  let pool = tourneySelect(generation);
+  
+}
+
+function tourneySelect(oldpool) {
+  
 }

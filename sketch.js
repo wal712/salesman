@@ -213,15 +213,55 @@ function getBestGenScore() {
 
 const arrSum = arr => arr.reduce((a,b) => a + b, 0);
 
+// TODO: rename fuction
 function crossOver() {
   let pool = tourneySelect(generation);
+
+  let newpool = [];
+
+  // Breed genSize new paths, then mutate them and add them to newpool
+  for (let i = 0; i < genSize; i++) {
+    const c1 = randomIndex(pool.length);
+    const c2 = randomIndex(pool.length);
+
+    const newborn = ero(pool[c1], pool[c2]);
+    // console.log(newborn);
+  }
+}
+
+// Uses ERO or edge recombination operator to breed new paths
+// Source: https://en.wikipedia.org/wiki/Edge_recombination_operator
+function ero(p1, p2) {
+  m1 = createMatrix(p1);
+  m2 = createMatrix(p2);
+}
+
+// Returns an adjacency matrix from a given path
+// Adjacency Matrix: https://en.wikipedia.org/wiki/Adjacency_matrix
+function createMatrix(path) {
+  let matrix = {};
+
+  // Loop through index in order an associate each with an array of its neighbors
+  // Consider first and last index to be neighbors
+  for (const idx of indexes) {
+    const pathidx = path.indexOf(idx);
+
+    if (pathidx === 0) {
+      matrix[parseInt(idx)] = [path[1], path[path.length - 1]];
+    } else if (pathidx === path.length - 1) {
+      matrix[parseInt(idx)] = [path[path.length - 2], path[0]];
+    } else {
+      matrix[parseInt(idx)] = [path[pathidx - 1], path[pathidx + 1]];
+    }
+  }
+  return matrix;
 }
 
 function tourneySelect(oldpool) {
   let newpool = [];
   for (let i = 0; i < genSize; i++) {
-    const c1 = Math.floor(Math.random() * oldpool.length);
-    const c2 = Math.floor(Math.random() * oldpool.length);
+    const c1 = randomIndex(oldpool.length);
+    const c2 = randomIndex(oldpool.length);
 
     if (genFitness[c1] > genFitness[c2]) {
       newpool.push(oldpool[c1]);
@@ -230,4 +270,8 @@ function tourneySelect(oldpool) {
     }
   }
   return newpool;
+}
+
+function randomIndex(arrlength) {
+  return Math.floor(Math.random() * arrlength);
 }
